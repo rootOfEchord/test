@@ -1,5 +1,5 @@
 const argv = require('yargs').alias('e', 'entry').argv
-
+console.log(process.argv,process.argv.splice(2)[0])
 console.log('process.env', process.env.NODE_ENV)
 console.log('argv', argv)
 

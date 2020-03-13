@@ -1,7 +1,8 @@
 const { pages } = require('./entry')
 
 module.exports = {
-	publicPath: './',
+    publicPath: './',
+    assetsDir: 'assets',
     pages: pages,
 	devServer: {
 		host: 'localhost',
