@@ -1,8 +1,12 @@
 var fs = require('fs');
-let fse = require('fs-extra')
+var fse = require('fs-extra')
 var path = require('path');
 var exec = require('child_process').exec;
-let newpath = path.join(__dirname, 'dist')
+
+
+
+let distDir = path.join(__dirname, 'dist')
+let serverDir = path.relative(__dirname, `e:/server/jj`)
 
 // 复制文件
 var copy = function (src, dst) {
@@ -47,40 +51,38 @@ var cleanOld = function (dest) {
   });
 }
 
-// 文件路径
-let url_src_ehome = path.relative(__dirname, `e:/server/jj`)
-console.log('url_src_ehome', url_src_ehome)
 
 // copy之前先清空旧文件
-// cleanOld(url_src_ehome)
+cleanOld(serverDir)
 
-// checkDirectory(newpath, url_src_ehome, copy)
+// 复制
+checkDirectory(distDir, serverDir, copy)
 
+let h = new Date().getHours()
+let m = new Date().getMinutes()
+h = h < 10? '0'+h : h
+m = m < 10? '0'+m : m
+let time = `${new Date().toLocaleDateString()} ${h}:${m}`
 
+// git push
 var cmds = [
   'git add *',
-  'ls',
-  'git commit -m "提交。。。"',
+  `git commit -m "提交${time}"`,
   'git push'
 ]
 
-let cmd = `cd ${url_src_ehome}`
-console.log('cmd', cmd)
-exec(cmd, { cwd: url_src_ehome }, function (err, stdout, stderr) {
-  if (err) {
-    console.log(err);
-  }
-  console.log('stdout', stdout)
-  console.log('stderr', stderr)
-  cmds.forEach(function (cmd, i) {
-    setTimeout(function () {
-      console.log(cmd);
-      exec(cmd, function (err, stdout, stderr) {
-        if (err) {
-          console.log(err);
-        }
-      });
-    }, i * 1000);
-  })
-});
-exec('ls', { cwd: 'dist' })
+
+cmds.forEach((cmd, i) => {
+  setTimeout(() => {
+    exec(cmd, {
+      cwd: serverDir
+    }, (err, stdout, stderr) => {
+      if (err) {
+        console.log(err);
+      }
+    })
+  }, i * 1000)
+})
+
+
+console.log('new Date().get', new Date().toLocaleDateString())
