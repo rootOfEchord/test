@@ -65,7 +65,7 @@ var cmds = [
 
 let cmd = `cd ${url_src_ehome}`
 console.log('cmd', cmd)
-exec(cmd, { cwd: 'dist' }, function (err, stdout, stderr) {
+exec(cmd, { cwd: url_src_ehome }, function (err, stdout, stderr) {
   if (err) {
     console.log(err);
   }
