@@ -59,6 +59,7 @@ console.log('url_src_ehome', url_src_ehome)
 
 var cmds = [
   'git add *',
+  'ls',
   'git commit -m "提交。。。"',
   'git push'
 ]
